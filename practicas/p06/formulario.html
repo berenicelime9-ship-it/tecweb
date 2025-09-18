@@ -16,52 +16,62 @@
 
     <p>¿Quieres cambiar tus viejos tenis por un par personalizado de Tenis Mike&#174;?<br><br>Justifica el por qué tus tenis se <em>tienen que</em> ir y tú puedes ser uno de los diez afortunados ganadores.</p>
     <form action ="http://52.43.117.247/neo/classroom/tw/concurso.php" method="post">
-    <p>Información del Participante</p>
-
     
-    <ul>
-    <li>Nombre: <input type="text" name="name"></li>
-    <li>Dirección de E-mail:<input type="text" name="email"></li>
-    <li>Número Telefónico:<input type="text" name="phone"></li>
-    <li>Mis tenis son tan feos porque...<br>
-    <textarea name="story" rows="4" cols="60" maxlength="..."
-    placeholder="No más de 300 caracteres de longitud"></textarea></li>
-    </ul>
+    <fieldset>
+      <legend>Información del Participante</legend>
+      
+      <ul>
+      <li>Nombre: <input type="text" name="name"></li>
+      <li>Dirección de E-mail:<input type="text" name="email"></li>
+      <li>Número Telefónico:<input type="text" name="phone"></li>
+      <li>Mis tenis son tan feos porque...<br>
+      <textarea name="story" rows="4" cols="60" maxlength="..."
+      placeholder="No más de 300 caracteres de longitud"></textarea></li>
+      </ul>
+    </fieldset>
 
     <h2>Diseña tus Mike personalizados:</h2>
 
-    <p>Diseño personalizado del Tenis</p>
+    <fieldset>
+      <legend>Diseño personalizado del Tenis</legend>
 
-    <p>Color <em>(escoge uno)</em>:</p>
-      <ul>
-      <li><input type="radio" name="color" value="red">Rojo</li>
-      <li><input type="radio" name="color" value="blue">Azul</li>
-      <li><input type="radio" name="color" value="black">Negro</li>
-      <li><input type="radio" name="color" value="silver">Plateado</li>
-      </ul>
+      <fieldset>
+      <legend>Color <em>(escoge uno)</em>:</legend>
+        <ul>
+        <li><input type="radio" name="color" value="red">Rojo</li>
+        <li><input type="radio" name="color" value="blue">Azul</li>
+        <li><input type="radio" name="color" value="black">Negro</li>
+        <li><input type="radio" name="color" value="silver">Plateado</li>
+        </ul>
+    </fieldset>
 
-    <p>Características <em>(escoge tantas como quieras)</em>:</p>
-      <ul>
-      <li><input type="checkbox" name="features[]" value="laces">Cordones brillantes</li>
-      <li><input type="checkbox" name="features[]" value="laces">Logo metálico</li>
-      <li><input type="checkbox" name="features[]" value="laces">Suela luminosa</li>
-      <li><input type="checkbox" name="features[]" value="laces">WiFi integrado</li>
-      </ul>
+    <fieldset>
+      <legend>Características <em>(escoge tantas como quieras)</em>:</legend>
+        <ul>
+        <li><input type="checkbox" name="features[]" value="laces">Cordones brillantes</li>
+        <li><input type="checkbox" name="features[]" value="Logo Metalico">Logo metálico</li>
+        <li><input type="checkbox" name="features[]" value="Suela luminosa">Suela luminosa</li>
+        <li><input type="checkbox" name="features[]" value="Wifi integrado">WiFi integrado</li>
+        </ul>
+    </fieldset>
 
-    <p>Talla</p>
-    <p>Las medidas reflejan el estándar masculino:
-      <select name="Talla" size="9">
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-      <option>6</option>
-      <option>7</option>
-      <option>8</option>
-      <option>9</option>
-      <option>10</option>
-      <option>11</option>
-      </select>
-    </p>
+    <fieldset>
+      <legend>Talla</legend>
+      <p>Las medidas reflejan el estándar masculino:
+        <select name="size" size="9">
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        </select>
+      </p>
+    </fieldset>
+    </fieldset>
 
     <p><input type="submit" value="¡Chidos mis tenis!">
     <input type="reset"></p>
