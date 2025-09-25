@@ -10,7 +10,8 @@
     <p>Escribir programa para comprobar si un número es un múltiplo de 5 y 7</p>
 
     <?php
-        require_once __DIR__ . "/src/funciones.php";
+        require_once 'src/funciones.php';
+        comprobarMultiplo();
     ?>
 
     <h2>Ejemplo de POST</h2>
