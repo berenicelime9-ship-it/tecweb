@@ -51,5 +51,18 @@
         echo "<h3>Versión con do-while</h3>";
         PrimerEnteroDo();
     ?>
+
+    <!--Ejercicio 4 -->
+    <h2>Ejercicio 4</h2>
+    <p>Crea un arreglo cuyos indices van de 97 a 122 y cuyos valores son las letras dee la 'a' a la 'z'. Usa la función chr(n) que devuelve el caracter cuyo código ASCII es n para poner el valor en cada indice.</p>
+    <ul>
+        <li>Crea el arreglo con un ciclo for</li>
+        <li>Lee el arreglo y crea una tabla en XHTML con echo y un ciclo foreach</li>
+    </ul>
+
+    <?php
+        require_once 'src/funciones.php';
+        TablaASCII();
+    ?>
 </body>
 </html>
