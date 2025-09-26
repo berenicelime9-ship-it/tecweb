@@ -51,3 +51,32 @@ function NumerosAleatorios() {
     echo "<p>$totalNumeros números obtenidos en $i iteraciones</p>";
 }
 ?>
+
+<!-- Ejercicio 3 -->
+<?php
+function PrimerEnteroWhile() {
+
+    $m = (int) $_GET['multiplo'];  
+    $numero = rand(1, 10000);
+
+    while ($numero % $m != 0) {
+        $numero = rand(1, 10000);
+    }
+    echo "El primer entero múltiplo de $m encontrado es: $numero<br>";
+}
+?>
+
+<?php
+function PrimerEnteroDo() {
+
+    $m = (int) $_GET['multiplo'];  
+    $numero = 0;
+
+    do {
+        $numero = rand(1, 10000);
+    } while ($numero % $m != 0);
+
+    echo "El primer entero múltiplo de $m encontrado es: $numero<br>";
+}
+?>
+
