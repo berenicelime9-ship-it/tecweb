@@ -14,7 +14,7 @@
             if(($edad >= 18 && $edad <= 35) && $sexo === "femenino") {
                 echo '<p><h3>Bienvenida, usted está en el rango de edad permitido</h3></p>';
             } else {
-                echo '<p>Lo sentimos, usted no está en el rango permitido</p>';
+                echo '<p><h3>Lo sentimos, usted no está en el rango permitido</h3></p>';
             }
         } else {
             echo '<p>No se recibieron datos del formulario</p>';
