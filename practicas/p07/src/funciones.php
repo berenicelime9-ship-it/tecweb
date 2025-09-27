@@ -103,22 +103,3 @@ function PrimerEnteroDo() {
 ?>
 
 
-<!-- ejercicio 5 -->
- <?php
-function Ejercicio5() {
-    if (!isset($_POST['edad']) || !isset($_POST['sexo'])) {
-        echo "Error: No se recibieron los datos correctamente.";
-        return;
-    }
-
-    $edad = (int) $_POST['edad'];
-    $sexo = strtolower(trim($_POST['sexo']));
-
-    if ($sexo === "femenino" && $edad >= 18 && $edad <= 35) {
-        echo "<h3>Bienvenida, usted está en el rango de edad permitido.</h3>";
-    } else {
-        echo "<h3>Lo sentimos, no cumple con los requisitos.</h3>";
-    }
-}
-?>
-
