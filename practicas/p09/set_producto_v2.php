@@ -9,7 +9,6 @@ $detalles = $_POST['details'] ?? '';
 $unidades = $_POST['units'] ?? 0;
 $imagen   = $_POST['image'] ?? '';
 
-/* Validar campos obligatorios */
 if (empty($nombre) || empty($marca) || empty($modelo)) {
     die("<h3>Error: Los campos nombre, marca y modelo son obligatorios.</h3>");
 }
@@ -21,14 +20,12 @@ if ($link->connect_errno) {
     die("<h3>Error de conexión: " . $link->connect_error . "</h3>");
 }
 
-/* Escapar valores para evitar problemas con comillas o caracteres especiales */
 $nombre   = $link->real_escape_string($nombre);
 $marca    = $link->real_escape_string($marca);
 $modelo   = $link->real_escape_string($modelo);
 $detalles = $link->real_escape_string($detalles);
 $imagen   = $link->real_escape_string($imagen);
 
-/* Asegurar que los valores numéricos sean válidos */
 $precio   = is_numeric($precio) ? $precio : 0;
 $unidades = is_numeric($unidades) ? $unidades : 0;
 
@@ -48,9 +45,12 @@ if ($result && $result->num_rows > 0) {
     exit;
 }
 
-/* Insertar nuevo producto */
+/*$insert_sql = "INSERT INTO productos 
+               VALUES (NULL, '{$nombre}', '{$marca}', '{$modelo}', {$precio}, '{$detalles}', {$unidades}, '{$imagen}', 0)"; */
+               
 $sql_insert = "INSERT INTO productos (nombre, marca, modelo, precio, detalles, unidades, imagen)
                VALUES ('$nombre', '$marca', '$modelo', $precio, '$detalles', $unidades, '$imagen')";
+
 
 if ($link->query($sql_insert)) {
     echo "<h2>Producto insertado correctamente</h2>";
