@@ -11,8 +11,8 @@ if ($link->connect_errno) {
     $conexion_valida = false;
     $mensaje_error = 'Falló la conexión: ' . $link->connect_error;
 } else {
-    // Consulta: solo productos no eliminados
-    $sql = "SELECT * FROM productos WHERE eliminado = 0";
+    // Consulta: todos los productos, incluyendo los eliminados
+    $sql = "SELECT * FROM productos";
     if ($result = $link->query($sql)) {
         $productos = $result->fetch_all(MYSQLI_ASSOC);
         $result->free();
@@ -28,7 +28,7 @@ if ($link->connect_errno) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
 <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-    <title>Productos Vigentes</title>
+    <title>Todos los Productos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <style>
         body { font-family: Arial, sans-serif; margin: 30px; }
@@ -49,7 +49,7 @@ if ($link->connect_errno) {
     </style>
 </head>
 <body>
-    <h3>Productos Vigentes</h3>
+    <h3>Todos los Productos</h3>
 
     <?php if(!$conexion_valida): ?>
         <p style="color:red;"><?= $mensaje_error ?></p>
@@ -64,13 +64,14 @@ if ($link->connect_errno) {
                     <th>Precio</th>
                     <th>Unidades</th>
                     <th>Detalles</th>
+                    <th>Eliminado</th>
                     <th>Imagen</th>
                     <th>Modificar</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach($productos as $prod): ?>
-                    <tr>
+                    <tr <?= $prod['eliminado'] ? 'style="background-color:#ffe6e6;"' : '' ?>>
                         <td><?= $prod['id'] ?></td>
                         <td><?= htmlspecialchars($prod['nombre']) ?></td>
                         <td><?= htmlspecialchars($prod['marca']) ?></td>
@@ -78,9 +79,9 @@ if ($link->connect_errno) {
                         <td>$<?= number_format($prod['precio'], 2) ?></td>
                         <td><?= $prod['unidades'] ?></td>
                         <td><?= htmlspecialchars(utf8_encode($prod['detalles'])) ?></td>
+                        <td><?= $prod['eliminado'] ? 'Sí' : 'No' ?></td>
                         <td>
-                            <img src="<?= !empty($prod['imagen']) ? $prod['imagen'] : 'img/default.png' ?>"
-                                 alt="Imagen" />
+                            <img src="<?= !empty($prod['imagen']) ? $prod['imagen'] : 'img/default.png' ?>" alt="Imagen" />
                         </td>
                         <td>
                             <a href="formulario_productos_v2.html?id=<?= $prod['id'] ?>" class="btn-simple">Modificar</a>
