@@ -1,17 +1,15 @@
 <?php
-header("Content-Type: application/xhtml+xml; charset=utf-8");
+header("Content-Type: text/html; charset=utf-8"); // HTML5 normal
 
 $productos = [];
 $mensaje_error = '';
 $conexion_valida = true;
 
-// Conexión a la base de datos
 @$link = new mysqli('localhost', 'root', 'straykids8_', 'marketzone');
 if ($link->connect_errno) {
     $conexion_valida = false;
     $mensaje_error = 'Falló la conexión: ' . $link->connect_error;
 } else {
-    // Consulta: solo productos vigentes (no eliminados)
     $sql = "SELECT * FROM productos WHERE eliminado = 0";
     if ($result = $link->query($sql)) {
         $productos = $result->fetch_all(MYSQLI_ASSOC);
@@ -23,20 +21,18 @@ if ($link->connect_errno) {
     $link->close();
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+    <meta charset="UTF-8">
     <title>Productos Vigentes</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <style>
-        body { font-family: Arial, sans-serif; margin: 30px; }
-        table { margin-top: 20px; width: auto; }
+        body { font-family: Arial, sans-serif; margin: 30px; text-align: center; }
+        table { margin: 20px auto; width: 90%; }
         img { width: 80px; border-radius: 5px; }
-        input[type="button"], .btn-simple {
-            padding: 4px 10px;
+        .btn-simple {
+            padding: 5px 12px;
             border: 1px solid #555;
             border-radius: 4px;
             background: none;
@@ -44,17 +40,54 @@ if ($link->connect_errno) {
             color: black;
             text-decoration: none;
         }
-        input[type="button"]:hover, .btn-simple:hover {
-            background: #f0f0f0;
-        }
+        .btn-simple:hover { background: #f0f0f0; }
     </style>
+    <script>
+    function modificarProducto(event) {
+        const row = event.target.closest("tr");
+        const cells = row.querySelectorAll("td");
+
+        const id       = cells[0].innerText;
+        const nombre   = cells[1].innerText;
+        const marca    = cells[2].innerText;
+        const modelo   = cells[3].innerText;
+        const precio   = cells[4].innerText.replace('$','').replace(',','');
+        const unidades = cells[5].innerText;
+        const detalles = cells[6].innerText;
+        const imagen   = cells[7].querySelector("img").src;
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "formulario_productos_v2.php";
+
+        function addField(name, value) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = name;
+            input.value = value;
+            form.appendChild(input);
+        }
+
+        addField("id", id);
+        addField("nombre", nombre);
+        addField("marca", marca);
+        addField("modelo", modelo);
+        addField("precio", precio);
+        addField("unidades", unidades);
+        addField("detalles", detalles);
+        addField("imagen", imagen);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    </script>
 </head>
 <body>
-    <h3>Productos Vigentes</h3>
+    <h2>Productos Vigentes</h2>
 
-    <?php if(!$conexion_valida): ?>
+    <?php if (!$conexion_valida): ?>
         <p style="color:red;"><?= $mensaje_error ?></p>
-    <?php elseif(!empty($productos)): ?>
+    <?php elseif (!empty($productos)): ?>
         <table class="table table-bordered table-striped">
             <thead class="thead-light">
                 <tr>
@@ -70,24 +103,23 @@ if ($link->connect_errno) {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($productos as $prod): ?>
-                    <tr>
-                        <td><?= $prod['id'] ?></td>
-                        <td><?= htmlspecialchars($prod['nombre']) ?></td>
-                        <td><?= htmlspecialchars($prod['marca']) ?></td>
-                        <td><?= htmlspecialchars($prod['modelo']) ?></td>
-                        <td>$<?= number_format($prod['precio'], 2) ?></td>
-                        <td><?= $prod['unidades'] ?></td>
-                        <td><?= htmlspecialchars(utf8_encode($prod['detalles'])) ?></td>
-                        <td>
-                            <img src="<?= !empty($prod['imagen']) ? $prod['imagen'] : 'img/default.png' ?>"
-                                 alt="Imagen" />
-                        </td>
-                        <td>
-                            <a href="formulario_productos_v2.html?id=<?= $prod['id'] ?>" class="btn-simple">Modificar</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+            <?php foreach($productos as $prod): ?>
+                <tr>
+                    <td><?= $prod['id'] ?></td>
+                    <td><?= htmlspecialchars($prod['nombre']) ?></td>
+                    <td><?= htmlspecialchars($prod['marca']) ?></td>
+                    <td><?= htmlspecialchars($prod['modelo']) ?></td>
+                    <td>$<?= number_format($prod['precio'], 2, '.', '') ?></td>
+                    <td><?= $prod['unidades'] ?></td>
+                    <td><?= htmlspecialchars($prod['detalles']) ?></td>
+                    <td>
+                        <img src="<?= !empty($prod['imagen']) ? $prod['imagen'] : 'img/default.png' ?>" alt="Imagen" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn-simple" onclick="modificarProducto(event)">Modificar</button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
             </tbody>
         </table>
     <?php else: ?>
