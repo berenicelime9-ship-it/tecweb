@@ -6,21 +6,22 @@
     <!-- BOOTSTRAP 4  -->
     <link rel="stylesheet" href="https://bootswatch.com/4/superhero/bootstrap.min.css">
   </head>
-  <body>
 
+  <body>
     <!-- BARRA DE NAVEGACIÓN  -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href=".">ProductApp</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto"></ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" name="search" id="search" type="search" placeholder="ID, marca o descripción" aria-label="Search">
-            <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-          </form>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" name="search" id="search" type="search"
+            placeholder="ID, marca o descripción" aria-label="Search">
+          <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+        </form>
       </div>
     </nav>
 
@@ -32,15 +33,48 @@
               <!-- FORMULARIO PARA AGREGAR PRODUCTO -->
               <form id="product-form">
                 <div class="form-group">
-                  <input class="form-control" type="text" id="name" placeholder="Nombre de producto">
+                  <label for="name">Nombre del producto</label>
+                  <input class="form-control" type="text" id="name" placeholder="" required>
                 </div>
+
                 <div class="form-group">
-                  <textarea class="form-control" id="description" cols="30" rows="10" placeholder="JSON de producto"></textarea>
+                  <label for="precio">Precio</label>
+                  <input class="form-control" type="number" id="precio" step="0.01" placeholder="Ej. 300000.00" required>
                 </div>
+
+                <div class="form-group">
+                  <label for="unidades">Unidades</label>
+                  <input class="form-control" type="number" id="unidades" placeholder="" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="modelo">Modelo</label>
+                  <input class="form-control" type="text" id="modelo" placeholder="" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="marca">Marca</label>
+                  <input class="form-control" type="text" id="marca" placeholder="" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="detalles">Detalles</label>
+                  <textarea class="form-control" id="detalles" placeholder=""></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="imagen">URL de imagen</label>
+                  <input class="form-control" type="text" id="imagen" placeholder="Ej. img/default.png">
+                </div>
+
                 <input type="hidden" id="productId">
-                <button class="btn btn-primary btn-block text-center" type="submit">
+
+                <button class="btn btn-primary btn-block text-center" id="agregarProducto" type="submit">
                   Agregar Producto
                 </button>
+
+                <!-- Barra de estado general -->
+                <div id="statusBar" class="mt-3 font-weight-bold"></div>
               </form>
             </div>
           </div>
@@ -50,7 +84,6 @@
         <div class="col-md-7">
           <div class="card my-4" id="product-result">
             <div class="card-body">
-              <!-- RESULTADO -->
               <ul id="container"></ul>
             </div>
           </div>
@@ -60,7 +93,7 @@
               <tr>
                 <td>Id</td>
                 <td>Nombre</td>
-                <td>Descripción</td>
+                <td>Detalles</td>
               </tr>
             </thead>
             <tbody id="products"></tbody>
@@ -69,11 +102,13 @@
       </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    <!-- JQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"></script>
-    <!-- Lógica del Frontend -->
+
+    <!-- JS principal -->
     <script src="app.js"></script>
   </body>
-
 </html>

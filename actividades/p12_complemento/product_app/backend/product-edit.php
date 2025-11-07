@@ -1,28 +1,61 @@
 <?php
+
     include_once __DIR__.'/database.php';
 
-    // SE CREA EL ARREGLO QUE SE VA A DEVOLVER EN FORMA DE JSON
+    $producto = file_get_contents('php://input');
     $data = array(
         'status'  => 'error',
-        'message' => 'La consulta falló'
+        'message' => 'No se pudo editar el producto'
     );
-    // SE VERIFICA HABER RECIBIDO EL ID
-    if( isset($_POST['id']) ) {
-        $jsonOBJ = json_decode( json_encode($_POST) );
-        // SE REALIZA LA QUERY DE BÚSQUEDA Y AL MISMO TIEMPO SE VALIDA SI HUBO RESULTADOS
-        $sql =  "UPDATE productos SET nombre='{$jsonOBJ->nombre}', marca='{$jsonOBJ->marca}',";
-        $sql .= "modelo='{$jsonOBJ->modelo}', precio={$jsonOBJ->precio}, detalles='{$jsonOBJ->detalles}',"; 
-        $sql .= "unidades={$jsonOBJ->unidades}, imagen='{$jsonOBJ->imagen}' WHERE id={$jsonOBJ->id}";
-        $conexion->set_charset("utf8");
-        if ( $conexion->query($sql) ) {
-            $data['status'] =  "success";
-            $data['message'] =  "Producto actualizado";
-		} else {
-            $data['message'] = "ERROR: No se ejecuto $sql. " . mysqli_error($conexion);
+
+
+
+    if(!empty($producto)) {
+
+        $jsonOBJ = json_decode($producto);
+        $nombre   = mysqli_real_escape_string($conexion, $jsonOBJ->nombre);
+        $marca    = mysqli_real_escape_string($conexion, $jsonOBJ->marca);
+        $modelo   = mysqli_real_escape_string($conexion, $jsonOBJ->modelo);
+        $precio   = mysqli_real_escape_string($conexion, $jsonOBJ->precio);
+        $detalles = mysqli_real_escape_string($conexion, $jsonOBJ->detalles);
+        $unidades = mysqli_real_escape_string($conexion, $jsonOBJ->unidades);
+        $imagen   = mysqli_real_escape_string($conexion, $jsonOBJ->imagen);
+
+        $sql = "SELECT * FROM productos WHERE nombre = '{$jsonOBJ->nombre}'";
+
+        if($consulta = mysqli_query($conexion, $sql)) {
+            $row = $consulta->fetch_assoc();
+            
+            $cambios = [];
+
+            if ($nombre !== $row['nombre'])      $cambios[] = "nombre='$nombre'";
+            if ($marca !== $row['marca'])        $cambios[] = "marca='$marca'";
+            if ($modelo !== $row['modelo'])      $cambios[] = "modelo='$modelo'";
+            if ($precio != $row['precio'])       $cambios[] = "precio=$precio";
+            if ($detalles !== $row['detalles'])  $cambios[] = "detalles='$detalles'";
+            if ($unidades != $row['unidades'])   $cambios[] = "unidades=$unidades";
+            if ($imagen !== $row['imagen'])      $cambios[] = "imagen='$imagen'";
         }
-		$conexion->close();
-    } 
-    
-    // SE HACE LA CONVERSIÓN DE ARRAY A JSON
-    echo json_encode($data, JSON_PRETTY_PRINT);
+
+       if(count($cambios) > 0) {
+        $sql = "UPDATE productos SET " .implode(", ", $cambios) . " WHERE nombre='{$jsonOBJ->nombre}'"; // Se agregan todos los cambios
+
+        if(mysqli_query($conexion, $sql)) {
+            $data['status'] =  "success";
+            $data['message'] =  "Producto modificado";
+        }
+        else
+            $data['message'] = "ERROR: No se ejecuto $sql. " . mysqli_error($conexion);
+        } else
+            $data['message'] =  "No se encontraron cambios";
+
+
+
+        echo json_encode($data, JSON_PRETTY_PRINT);
+
+        $consulta->free();
+        // Cierra la conexion
+        $conexion->close();
+    }
+
 ?>
