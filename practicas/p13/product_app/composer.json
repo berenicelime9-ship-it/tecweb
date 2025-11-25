@@ -1,0 +1,28 @@
+{
+    "name": "berenice_lime8/product_app",
+    "description": "Aplicación de productos con PSR-4",
+    "type": "project",
+    "license": "MIT",
+
+    "autoload": {
+        "psr-4": {
+            "TECWEB\\MyApi\\": "backend/src/TECWEB/MyApi/"
+        }
+    },
+
+    "authors": [
+        {
+            "name": "Berenice Lime",
+            "email": "berenice.lime9@gmail.com"
+        }
+    ],
+
+    "require": {
+        "php": ">=7.4"
+    },
+
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}
